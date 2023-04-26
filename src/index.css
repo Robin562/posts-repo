@@ -20,6 +20,8 @@ code {
 .App {
   display: flex;
   flex-direction: column;
+  max-width: 800px;
+  margin: auto;
 }
 
 .header {
@@ -70,8 +72,9 @@ a {
 .footer {
   position: fixed;
   bottom: 0;
+  margin-bottom: 0px;
   text-align: center;
-  width: 100%;
+  width: 800px;
   background-color: aqua;
   padding: 0.5rem;
 }
