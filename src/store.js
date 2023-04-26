@@ -31,9 +31,6 @@ export default createStore({
     state.postBody = payload;
   }),
   postsLength: computed((state) => state.posts.length),
-  getPostById: computed((state) => {
-    return (id) => state.posts.find((post) => post.id.toString() === id);
-  }),
   addPost: thunk(async (actions, newPost, helpers) => {
     const { posts } = helpers.getState();
     try {

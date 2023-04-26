@@ -1,16 +1,20 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import format from "date-fns/format";
+import { useState } from "react";
 
-const NewPost = ({ navigate }) => {
-  const postBody = useStoreState((state) => state.postBody);
-  const setPostBody = useStoreActions((actions) => actions.setPostBody);
-  const postHeading = useStoreState((state) => state.postHeading);
-  const setPostHeading = useStoreActions((actions) => actions.setPostHeading);
-  const addPost = useStoreActions((actions) => actions.addPost);
-  const posts = useStoreState((state) => state.posts);
+const NewPost = ({ navigate, posts, setPosts }) => {
+  // const postBody = useStoreState((state) => state.postBody);
+  // const setPostBody = useStoreActions((actions) => actions.setPostBody);
+  // const postHeading = useStoreState((state) => state.postHeading);
+  // const setPostHeading = useStoreActions((actions) => actions.setPostHeading);
+  const [postBody, setPostBody] = useState("");
+  const [postHeading, setPostHeading] = useState("");
+  // const addPost = useStoreActions((actions) => actions.addPost);
+  // const posts = useStoreState((state) => state.posts);
 
   const handleAdd = async (e) => {
     e.preventDefault();
+
     if (!postHeading || !postBody) return;
     const newPost = {
       id: posts.length ? posts[posts.length - 1].id + 1 : 1,
@@ -18,7 +22,7 @@ const NewPost = ({ navigate }) => {
       datetime: format(new Date(), "MMMM dd, yyyy pp"),
       body: postBody,
     };
-    addPost(newPost);
+    setPosts([...posts, newPost]);
     navigate("/");
   };
 

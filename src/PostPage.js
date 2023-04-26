@@ -1,14 +1,13 @@
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link, useParams } from "react-router-dom";
 
-const PostPage = ({ navigate }) => {
+const PostPage = ({ navigate, posts, setPosts }) => {
   const { id } = useParams();
-  const deletePost = useStoreActions((actions) => actions.deletePost);
-  const getPostById = useStoreState((state) => state.getPostById);
-  const post = getPostById(id);
+  const post = posts.find((post) => post.id.toString() === id);
 
   const handleDelete = async (id) => {
-    deletePost(id);
+    const newList = posts.filter((post) => post.id !== id);
+    setPosts(newList);
     navigate("/");
   };
 

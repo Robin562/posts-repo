@@ -1,24 +1,20 @@
 import { useParams } from "react-router-dom";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 
-const EditPost = ({ navigate }) => {
+const EditPost = ({ navigate, posts, setPosts }) => {
   const { id } = useParams();
-  const getPostById = useStoreState((state) => state.getPostById);
-  const post = getPostById(id);
-  const editPost = useStoreActions((actions) => actions.editPost);
-  const editTitle = useStoreState((state) => state.editTitle);
-  const setEditTitle = useStoreActions((actions) => actions.setEditTitle);
-  const editBody = useStoreState((state) => state.editBody);
-  const setEditBody = useStoreActions((actions) => actions.setEditBody);
+  const post = posts.find((post) => post.id.toString() === id);
+  // const editPost = useStoreActions((actions) => actions.editPost);
+  // const editTitle = useStoreState((state) => state.editTitle);
+  // const setEditTitle = useStoreActions((actions) => actions.setEditTitle);
+  // const editBody = useStoreState((state) => state.editBody);
+  // const setEditBody = useStoreActions((actions) => actions.setEditBody);
+  const [editBody, setEditBody] = useState(post.body);
+  const [editTitle, setEditTitle] = useState(post.title);
 
-  useEffect(() => {
-    if (post) {
-      setEditTitle(post.title);
-      setEditBody(post.body);
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   const handleEdit = async (id) => {
     if (!editTitle || !editBody) return;
@@ -28,7 +24,8 @@ const EditPost = ({ navigate }) => {
       datetime: format(new Date(), "MMMM dd, yyyy pp"),
       body: editBody,
     };
-    editPost(updatedPost);
+    const newList = posts.map((post) => (post.id === id ? updatedPost : post));
+    setPosts(newList);
     navigate(`/post/${id}`);
   };
 
